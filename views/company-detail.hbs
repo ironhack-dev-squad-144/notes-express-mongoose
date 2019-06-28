@@ -1,8 +1,12 @@
 <h1>Company Detail</h1>
 
+{{!-- Nice tool to debug --}}
+{{!-- <pre>{{company}}</pre> --}}
+
 <strong>Name</strong>: {{company.name}} <br>
 <strong>Number of employees</strong>: {{company.number_of_employees}} <br>
 <strong>Description</strong>: {{company.description}}<br>
+<strong>Country</strong>: <a href="/country/{{company._country._id}}"> {{company._country.name}}</a><br>
 <strong>Acquistions:</strong>
 <ul>
   {{#each company.acquisitions}}

@@ -1,0 +1,9 @@
+<h1>Country: {{country.name}}</h1>
+
+Code: {{country.code}} <br><br>
+Companies:
+<ul>
+  {{#each companies}}
+  <li>{{this.name}}</li>
+  {{/each}}
+</ul>

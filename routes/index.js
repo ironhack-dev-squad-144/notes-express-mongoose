@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Company = require("../models/Company");
+const Country = require("../models/Country");
 
 // cRud: Route "GET /" to display all companies
 router.get("/", (req, res, next) => {
@@ -11,16 +12,24 @@ router.get("/", (req, res, next) => {
     .then(companiesFromDb => {
       let end = new Date();
       console.log("Diff in ms:", end - start);
-      res.render("index", { companies: companiesFromDb });
+
+      Country.find().then(countriesFromDb => {
+        res.render("index", {
+          companies: companiesFromDb,
+          countries: countriesFromDb
+        });
+      });
     });
 });
 
 // cRud: Route "GET /company/anId" to display the detail
 router.get("/company/:companyId", (req, res, next) => {
   let companyId = req.params.companyId;
-  Company.findById(companyId).then(company => {
-    res.render("company-detail", { company: company });
-  });
+  Company.findById(companyId)
+    .populate("_country") // Replace the ObjectId by the document (for the field "_country")
+    .then(company => {
+      res.render("company-detail", { company: company });
+    });
 });
 
 // cruD: Route "GET /delete-company/anId" to delete one company
@@ -70,6 +79,55 @@ router.post("/edit-company/:companyId", (req, res, next) => {
   }).then(() => {
     res.redirect("/company/" + id);
   });
+});
+
+// Routes for countries
+
+// // Version 1: we have to wait twice
+// router.get("/country/:countryId", (req, res, next) => {
+//   let countryId = req.params.countryId;
+
+//   Company.find({ _country: countryId }).then(companies => {
+//     Country.findById(countryId).then(country => {
+//       res.render("country-detail", { country, companies });
+//     })
+//   });
+// });
+
+// // Version 2 (faster): we have to wait only once
+// router.get("/country/:countryId", (req, res, next) => {
+//   let countryId = req.params.countryId;
+
+//   // Promise.all takes as a parameter an array of promises
+//   Promise.all([
+//     Company.find({ _country: countryId }),
+//     Country.findById(countryId)
+//   ])
+//     .then(results => {
+//       let companies = results[0];
+//       let country = results[1];
+//       res.render("country-detail", { country, companies });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// });
+
+// Version 3: same as version 2
+router.get("/country/:countryId", (req, res, next) => {
+  let countryId = req.params.countryId;
+
+  // Promise.all takes as a parameter an array of promises
+  Promise.all([
+    Company.find({ _country: countryId }),
+    Country.findById(countryId)
+  ])
+    .then(([companies, country]) => {
+      res.render("country-detail", { country, companies });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 module.exports = router;

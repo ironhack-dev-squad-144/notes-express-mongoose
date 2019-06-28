@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
 const companySchema = new Schema({
+
+  // Link to the model "Country"
+  // Convention: starts with "_" because it's an object id
+  // Always give type "Schema.Types.ObjectId" and always give a ref
+  _country: { type: Schema.Types.ObjectId, ref: "Country" },
+
   name: String,
   permalink: String,
   crunchbase_url: String,

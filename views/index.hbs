@@ -1,13 +1,26 @@
 <h1>Crunchbase</h1>
 
-<a href="/add-company">Create a new company</a>
+<div class="grid">
+  <div class="grid__col">
+    <a href="/add-company">Create a new company</a>
+    <ul>
+      {{#each companies}}
+      <li>
+        <a href="/company/{{this._id}}">{{this.name}}</a>
+        -
+        <a href="/delete-company/{{this._id}}">Delete</a>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
 
-<ul>
-  {{#each companies}}
-  <li>
-    <a href="/company/{{this._id}}">{{this.name}}</a>
-    -
-    <a href="/delete-company/{{this._id}}">Delete</a>
-  </li>
-  {{/each}}
-</ul>
+  <div class="grid__col">
+    <ul>
+      {{#each countries}}
+      <li>
+        <a href="/country/{{this._id}}">{{this.name}}</a>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
