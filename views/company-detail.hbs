@@ -1,8 +1,8 @@
 <h1>Company Detail</h1>
 
 <strong>Name</strong>: {{company.name}} <br>
-<strong>Crunchbase Url</strong>: <a href="{{company.crunchbase_url}}">{{company.crunchbase_url}}</a><br>
 <strong>Number of employees</strong>: {{company.number_of_employees}} <br>
+<strong>Description</strong>: {{company.description}}<br>
 <strong>Acquistions:</strong>
 <ul>
   {{#each company.acquisitions}}
@@ -14,3 +14,5 @@
   </li>
   {{/each}}
 </ul>
+
+<a href="/edit-company/{{company._id}}">Edit</a>

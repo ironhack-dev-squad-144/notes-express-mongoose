@@ -1,11 +1,13 @@
 <h1>Crunchbase</h1>
 
+<a href="/add-company">Create a new company</a>
+
 <ul>
   {{#each companies}}
   <li>
-    <a href="/company/{{this._id}}">
-      {{this.name}}
-    </a>
+    <a href="/company/{{this._id}}">{{this.name}}</a>
+    -
+    <a href="/delete-company/{{this._id}}">Delete</a>
   </li>
   {{/each}}
 </ul>

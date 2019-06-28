@@ -1,0 +1,8 @@
+<h1>Edit company</h1>
+
+<form action="/edit-company/{{company._id}}" method="post">
+  Name: <input type="text" name="name" value="{{company.name}}"><br>
+  Number of employees: <input type="number" name="number_of_employees" value="{{company.number_of_employees}}"><br>
+  Description: <textarea name="description">{{company.description}}</textarea><br>
+  <button>Edit</button>
+</form>
